@@ -1,0 +1,45 @@
+﻿  torre_hanoi_tad.cpp
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(75,47): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(75,47): warning C4244:         with
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(75,47): warning C4244:         [
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(75,47): warning C4244:             T=float
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(75,47): warning C4244:         ]
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(76,44): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(76,44): warning C4244:         with
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(76,44): warning C4244:         [
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(76,44): warning C4244:             T=float
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(76,44): warning C4244:         ]
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(78,33): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(80,56): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(80,32): warning C4244: 'argumento': conversão de 'double' para 'float', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(98,64): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(98,64): warning C4244:         with
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(98,64): warning C4244:         [
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(98,64): warning C4244:             T=float
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(98,64): warning C4244:         ]
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(100,67): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(110,55): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(110,55): warning C4244:         with
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(110,55): warning C4244:         [
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(110,55): warning C4244:             T=float
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(110,55): warning C4244:         ]
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(112,47): warning C4244: 'argumento': conversão de 'T' para 'float', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(112,47): warning C4244:         with
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(112,47): warning C4244:         [
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(112,47): warning C4244:             T=unsigned int
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(112,47): warning C4244:         ]
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(154,31): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(155,31): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(156,31): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(169,104): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(169,79): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(182,104): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(182,79): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(192,104): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+C:\Users\carol\Downloads\torre_hanoi_tad.cpp(192,79): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+  Gerando código
+  1 of 84 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finalizada a geração de código
+  Jogo1.vcxproj -> C:\Users\carol\Desktop\UFSCAR\2 semestre\AED I\jogos\Jogo1\x64\Release\Jogo1.exe
