@@ -1,60 +1,125 @@
 #include <iostream>
+using namespace std;
 
-
-struct disco{
+struct disco
+{
     int tamanho; /* tamanho do disco */
-    struct disco *próx; /* ponteiro para o próximo disco */
+    struct disco *próximo; /* ponteiro para o próximo disco */
 };
 
-typedef struct disco *ptr_disco; /* tipo ponteiro para disco */
+typedef struct disco *ptrDisco;
 
-typedef struct{
-    ptr_disco topo;
-    int numeroDiscos; /* usada pra depois verificar se uma
-    torre, sem ser a da direita, está cheia, indicando, assim,
-    jogo concluído */
-}torre;
+class torre
+{
+    private:
+        ptrDisco topo; /* ponteiro para o disco do topo da torre */
+        int numeroDiscos; /* quantidade de discos da torre */
+        int posição;
+        static int contagemPosição;
+    public:
+        torre();
+        int getNumeroDiscos() const;
+        int getPosição() const;
+        bool vazia() const;
+        bool empilhar(ptrDisco);
+        bool desempilhar(ptrDisco&);
+};
 
-void criarTorre(torre *a){
-    a->topo = NULL;
-    a->numeroDiscos = 0;
+torre::torre()
+{
+    topo = NULL;
+    numeroDiscos = 0;
+    posição = ++contagemPosição;
 }
 
-/* acho que deve criar uma torre
-   já cheia... talvez só na main??? */
+int torre::getNumeroDiscos() const
+{
+    return numeroDiscos;
+}
 
-bool torreVazia(torre *a){
-    if(a->topo == NULL)
+int torre::getPosição() const
+{
+    return posição;
+}
+
+bool torre::vazia() const
+{
+    if(topo == NULL)
         return true;
     else
         return false;
 }
 
-bool empilhar(torre *a, ptr_disco d){ /* retorna true se consegue empilhar */
-    if(torreVazia(a)){
-        a->topo = d;
-        d->próx = NULL;
-        a->numeroDiscos++;
+bool torre::empilhar(ptrDisco D)
+{
+    if(vazia())
+    {
+        topo = D;
+        D->próximo = NULL;
+        numeroDiscos++;
         return true;
-    } else {
-        if(d->tamanho > a->topo->tamanho)
-            return false; /* tamanho do disco é maior que o disco de baixo */
-        else{
-            d->próx = a->topo; 
-            a->topo = d;
-            a->numeroDiscos++;
+    } 
+    else
+    {
+        if(D->tamanho > topo->tamanho)
+            return false;
+        else
+        {
+            D->próximo = topo;
+            topo = D;
+            numeroDiscos++;
             return true;
         }
     }
 }
 
-bool desempilhar(torre *a, ptr_disco *e){ /* retorna true se consegue desempilhar*/
-    if(torreVazia(a))
+bool torre::desempilhar(ptrDisco& D)
+{
+    if(vazia())
         return false;
-    else{
-        *e = a->topo;
-        a->topo = a->topo->próx;
-        a->numeroDiscos--;
+    else
+    {
+        D = topo;
+        topo = topo->próximo;
+        numeroDiscos--;
         return true;
     }
-} /* preciso armazenar o ponteiro do antigo topo para colocar esse disco em outro lugar */
+}
+
+/* agora as funções globais */
+
+void encherEsquerda(torre& T, int dificuldade)
+{
+    ptrDisco D;
+    for(int i = dificuldade; i > 0; i--)
+    {
+        D = new disco;
+        D->tamanho = i;
+        T.empilhar(D);
+    }
+}
+
+bool moverDisco(torre& origem, torre& destino)
+{
+    ptrDisco D;
+    if(!origem.desempilhar(D))
+    {
+        cout << "Erro ao desempilhar torre vazia." << endl;
+        return false;
+    }
+    if(!destino.empilhar(D))
+    {
+        cout << "Erro: o disco é maior que a base." << endl;
+        origem.empilhar(D);
+        return false;
+    }
+    return true;
+}
+
+bool vocêGanhou(torre& a, torre& b, int dificuldade)
+{
+    if(a.getNumeroDiscos() == dificuldade || b.getNumeroDiscos() == dificuldade)
+        return true;
+    return false;
+}
+
