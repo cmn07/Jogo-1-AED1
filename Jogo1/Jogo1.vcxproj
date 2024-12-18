@@ -139,8 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\Downloads\torre_hanoi_tad.cpp" />
+    <ClCompile Include="disco.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="torre.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="disco.h" />
+    <ClInclude Include="torre.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
