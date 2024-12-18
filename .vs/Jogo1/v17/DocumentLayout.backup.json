@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|solutionrelative:Jogo1\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\disco.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|solutionrelative:Jogo1\\disco.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\torre.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|solutionrelative:Jogo1\\torre.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\disco.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|solutionrelative:Jogo1\\disco.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CAC7C20A-9B11-416A-8818-55DC7FAAB6F4}|Jogo1\\Jogo1.vcxproj|C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\disco.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -34,27 +34,29 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "torre.cpp",
               "DocumentMoniker": "C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\torre.cpp",
               "RelativeDocumentMoniker": "Jogo1\\torre.cpp",
               "ToolTip": "C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\torre.cpp",
               "RelativeToolTip": "Jogo1\\torre.cpp",
-              "ViewState": "AgIAADQAAAAAAAAAAAAUwBEAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-13T00:49:14.465Z"
+              "WhenOpened": "2024-12-13T00:49:14.465Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "disco.cpp",
               "DocumentMoniker": "C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\disco.cpp",
               "RelativeDocumentMoniker": "Jogo1\\disco.cpp",
               "ToolTip": "C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\disco.cpp",
               "RelativeToolTip": "Jogo1\\disco.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-13T00:50:36.89Z"
+              "WhenOpened": "2024-12-13T00:50:36.89Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -88,7 +90,7 @@
               "RelativeDocumentMoniker": "Jogo1\\main.cpp",
               "ToolTip": "C:\\Users\\carol\\Desktop\\UFSCAR\\2 semestre\\AED I\\jogos\\Jogo1\\Jogo1\\main.cpp",
               "RelativeToolTip": "Jogo1\\main.cpp",
-              "ViewState": "AgIAALMAAAAAAAAAAAAUwMYAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAmwG4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-12T23:50:40.233Z",
               "EditorCaption": ""

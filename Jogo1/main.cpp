@@ -18,22 +18,16 @@ using namespace sf;
     }
 }*/
 
-bool moverDisco(torre& origem, torre& destino)
-{
-    disco* D;
-    if (!origem.desempilhar(D))
-    {
-        cout << "Erro ao desempilhar torre vazia." << endl;
-        return false;
-    }
-    if (!destino.empilhar(D))
-    {
+bool moverDisco(torre& origem, torre& destino, disco* discoMovido) {
+    if (!destino.empilhar(discoMovido)) {
+        // Caso o disco não possa ser empilhado, retorna falso
         cout << "Erro: o disco é maior que a base." << endl;
-        origem.empilhar(D);
+        origem.empilhar(discoMovido); // Reempilha na origem
         return false;
     }
     return true;
 }
+
 
 bool vocêGanhou(torre& a, torre& b, int dificuldade)
 {
@@ -44,19 +38,26 @@ bool vocêGanhou(torre& a, torre& b, int dificuldade)
 
 
 int clicarNaTorre(int mouseX, int mouseY, int xTorre1, int yTorre1, int largura1, int altura1, int xTorre2, int yTorre2, int largura2, int altura2, int xTorre3, int yTorre3, int largura3, int altura3) {
-    if (mouseX >= xTorre1 && mouseX <= (xTorre1 + largura1) && mouseY >= yTorre1 && mouseY <= (yTorre1 + altura1)) {
+    if (mouseX >= (xTorre1 - largura1 / 2) && mouseX <= (xTorre1 + largura1 / 2) &&
+        mouseY >= yTorre1 && mouseY <= (yTorre1 + altura1)) {
+        cout << "Cliquei na torre 1" << endl;
         return 1; // Torre 1 clicada
-        cout << "Cliquei na torre 1";
     }
-    if (mouseX >= xTorre2 && mouseX <= (xTorre2 + largura2) && mouseY >= yTorre2 && mouseY <= (yTorre2 + altura2)) {
+
+    // Para a Torre 2
+    if (mouseX >= (xTorre2 - largura2 / 2) && mouseX <= (xTorre2 + largura2 / 2) &&
+        mouseY >= yTorre2 && mouseY <= (yTorre2 + altura2)) {
+        cout << "Cliquei na torre 2" << endl;
         return 2; // Torre 2 clicada
-        cout << "Cliquei na torre 2";
     }
-    if (mouseX >= xTorre3 && mouseX <= (xTorre3 + largura3) && mouseY >= yTorre3 && mouseY <= (yTorre3 + altura3)) {
+
+    // Para a Torre 3
+    if (mouseX >= (xTorre3 - largura3 / 2) && mouseX <= (xTorre3 + largura3 / 2) &&
+        mouseY >= yTorre3 && mouseY <= (yTorre3 + altura3)) {
+        cout << "Cliquei na torre 3" << endl;
         return 3; // Torre 3 clicada
-        cout << "Cliquei na torre 3";
     }
-    return 0; // Nenhuma torre clicada
+    return 0;
 }
 
 
@@ -104,7 +105,7 @@ void desenharDiscoDesempilhado(RenderWindow& window, disco* disco) {
     discoTexture.loadFromFile("bolopx.png");
     RectangleShape discoShape(Vector2f(disco->getTamanho() * 50, 50));
     discoShape.setTexture(&discoTexture);
-    discoShape.setPosition(window.getSize().x / 2, 50);
+    discoShape.setPosition(window.getSize().x / 2 - discoShape.getSize().x / 2, 50);
     window.draw(discoShape);
 }
 
@@ -142,8 +143,8 @@ int main() {
     int status = 1;
     disco* discoSelect = nullptr;
 
-    torre torreOrigem;
-    torre torreDestino;
+    torre* torreOrigem = nullptr;;
+    torre* torreDestino = nullptr;;
 
 
     while (window.isOpen()) {
@@ -154,9 +155,11 @@ int main() {
         desenharTorre(window, xTorre2, alturaTorre, larguraTorre, torre2.getTopo());
         desenharTorre(window, xTorre3, alturaTorre, larguraTorre, torre3.getTopo());
 
-        if (status == 2 && discoSelect != nullptr) {
+        if (status == 2) {
             desenharDiscoDesempilhado(window, discoSelect);
         }
+
+        
 
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
@@ -170,41 +173,65 @@ int main() {
                     xTorre3, 300, larguraSecao, alturaTorre);
                 if (status == 1) {
                     if (torreClicada == 1) {
-                        status = 2;
-                        torreOrigem = torre1;
-                        discoSelect = torreOrigem.getTopo();
-                        torreOrigem.desempilhar(discoSelect);
+                        torreOrigem = &torre1;
                     }
                     else if (torreClicada == 2) {
-                        status = 2;
-                        torreOrigem = torre2;
-                        discoSelect = torreOrigem.getTopo();
-                        torreOrigem.desempilhar(discoSelect);
+                        torreOrigem = &torre2;
                     }
                     else if (torreClicada == 3) {
+                        torreOrigem = &torre3;
+                    }
+                    if (torreOrigem != nullptr && torreOrigem->getTopo() != nullptr) {
+                        discoSelect = torreOrigem->getTopo();
+                        torreOrigem->desempilhar(discoSelect);
                         status = 2;
-                        torreOrigem = torre3;
-                        discoSelect = torreOrigem.getTopo();
-                        torreOrigem.desempilhar(discoSelect);
                     }
                 }
-                else if (status == 2) {
+
+                else if (status == 2 && discoSelect != nullptr) {
                     if (torreClicada == 1) {
-                        torreDestino = torre1;
+                        torreDestino = &torre1;
                     }
                     else if (torreClicada == 2) {
-                        torreDestino = torre2;
+                        torreDestino = &torre2;
                     }
                     else if (torreClicada == 3) {
-                        torreDestino = torre3;
+                        torreDestino = &torre3;
                     }
-                    if (moverDisco(torreOrigem, torreDestino)) {
-                        status = 1;
+                    if (torreDestino != nullptr) {
+                        moverDisco(*torreOrigem, *torreDestino, discoSelect);
                         discoSelect = nullptr;
+                        status = 1;
+                        torreDestino = nullptr;
+                        torreOrigem = nullptr;
+                    }
+                }
+                if (vocêGanhou(torre2, torre3, 5)) {
+                    // Exibir a mensagem de vitória
+                    sf::Font font;
+                    if (!font.loadFromFile("asap.ttf")) {
+                        cout << "Erro ao carregar a fonte!" << endl;
+                        return -1; // Encerra o programa caso a fonte não seja carregada
                     }
                     
+                    sf::Text victoryText;
+                    victoryText.setFont(font);
+                    victoryText.setString("Parabéns!");
+                    victoryText.setCharacterSize(50);
+                    victoryText.setFillColor(sf::Color::Magenta);
 
+                    sf::FloatRect textRect = victoryText.getLocalBounds();
+                    victoryText.setOrigin(textRect.width / 2, textRect.height / 2);
+                    victoryText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
+                    window.clear(sf::Color(135, 206, 235));
+                    window.draw(victoryText);
+                    window.display();
+
+                    sf::sleep(sf::seconds(3));
+                    window.close();
                 }
+
             }
 
         }
