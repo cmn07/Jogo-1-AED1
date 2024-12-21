@@ -3,7 +3,7 @@ class disco
 {
 private:
 	int tamanho; /* tamanho do disco */
-	disco* próximo; /* ponteiro para o próximo disco */
+	disco* proximo; /* ponteiro para o prï¿½ximo disco */
 public:
 	disco(int);
 	int getTamanho() const;

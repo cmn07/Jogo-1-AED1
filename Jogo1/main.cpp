@@ -2,40 +2,79 @@
 #include "torre.h"
 #include "disco.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 using namespace std;
 using namespace sf;
 
-/* agora as funÁıes globais */
+// Fun√ß√£o que cria e desenha a tela inicial
+void desenharTelaInicial(RenderWindow& window) {
+    // Criar o fundo da tela inicial
+    window.clear(sf::Color(135, 206, 235));
 
-/*void encherEsquerda(torre& T, int dificuldade)
-{
-    disco* D;
-    for (int i = dificuldade; i > 0; i--)
-    {
-        D = new disco;
-        D->setTamanho(i);
-        T.empilhar(D);
+    // Carregar a fonte para o texto
+    sf::Font font;
+    if (!font.loadFromFile("asap.ttf")) {
+        cout << "Erro ao carregar a fonte!" << endl;
+        return;  // Encerra caso n√£o consiga carregar a fonte
     }
-}*/
+
+    // Criar o texto de "Bem-vindo"
+    sf::Text welcomeText;
+    welcomeText.setFont(font);
+    welcomeText.setString("Bem-vindo(a) ao jogo da Torre de Hanoi!");
+    welcomeText.setCharacterSize(30);
+    welcomeText.setFillColor(sf::Color::Black);
+    welcomeText.setPosition(window.getSize().x / 2.0f - welcomeText.getLocalBounds().width / 2.0f, 100);
+    window.draw(welcomeText);
+
+    // Criar o bot√£o "Start"
+    sf::Text startText;
+    startText.setFont(font);
+    startText.setString("Start");
+    startText.setCharacterSize(50);
+    startText.setFillColor(sf::Color::Green);
+    startText.setPosition(window.getSize().x / 2.0f - startText.getLocalBounds().width / 2.0f, window.getSize().y / 2.0f);
+
+    // Desenhar o texto na tela
+    window.draw(startText);
+
+    window.display();
+}
+
+// Fun√ß√£o que verifica se o clique foi no bot√£o "Start"
+bool verificarCliqueStart(RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+    // Tamanho do bot√£o Start (aproximadamente 100x50)
+    float startBtnWidth = 200;
+    float startBtnHeight = 60;
+    float startBtnX = window.getSize().x / 2.0f - startBtnWidth / 2.0f;
+    float startBtnY = window.getSize().y / 2.0f;
+
+    if (mousePos.x >= startBtnX && mousePos.x <= startBtnX + startBtnWidth &&
+        mousePos.y >= startBtnY && mousePos.y <= startBtnY + startBtnHeight) {
+        return true;
+    }
+
+    return false;
+}
 
 bool moverDisco(torre& origem, torre& destino, disco* discoMovido) {
     if (!destino.empilhar(discoMovido)) {
-        // Caso o disco n„o possa ser empilhado, retorna falso
-        cout << "Erro: o disco È maior que a base." << endl;
+        // Caso o disco n√£o possa ser empilhado, retorna falso
+        cout << "Erro: o disco √© maior que a base." << endl;
         origem.empilhar(discoMovido); // Reempilha na origem
         return false;
     }
     return true;
 }
 
-
-bool vocÍGanhou(torre& a, torre& b, int dificuldade)
+bool voceGanhou(torre& a, torre& b, int dificuldade)
 {
     if (a.getNumeroDiscos() == dificuldade || b.getNumeroDiscos() == dificuldade)
         return true;
     return false;
 }
-
 
 int clicarNaTorre(int mouseX, int mouseY, int xTorre1, int yTorre1, int largura1, int altura1, int xTorre2, int yTorre2, int largura2, int altura2, int xTorre3, int yTorre3, int largura3, int altura3) {
     if (mouseX >= (xTorre1 - largura1 / 2) && mouseX <= (xTorre1 + largura1 / 2) &&
@@ -60,28 +99,27 @@ int clicarNaTorre(int mouseX, int mouseY, int xTorre1, int yTorre1, int largura1
     return 0;
 }
 
-
 void desenharTorre(RenderWindow& window, int xPos, int altura, int largura, disco* topo) {
     sf::Texture torreTexture;
     sf::Texture discoTexture;
     discoTexture.loadFromFile("bolopx.png");
     discoTexture.setRepeated(true);
 
-    // Desenhar a torre (um ret‚ngulo para representar a torre)
+    // Desenhar a torre (um ret√¢ngulo para representar a torre)
     RectangleShape baseShape(Vector2f(largura * 15, 30));
     RectangleShape torreShape(Vector2f(20, altura)); // Corpo da torre
     torreShape.setFillColor(Color::White);
     torreShape.setPosition(xPos - largura / 2, 300); // Centralizar a torre no ponto xPos
     baseShape.setFillColor(Color::White);
-    baseShape.setPosition(xPos - largura * 7.5, altura + 300); //Definindo posiÁ„o da base da torre
+    baseShape.setPosition(xPos - largura * 7.5, altura + 300); //Definindo posi√ß√£o da base da torre
     window.draw(torreShape);
     window.draw(baseShape);
 
 
-    // Calcular o n˙mero total de discos na torre
+    // Calcular o n√∫mero total de discos na torre
     int totalDiscos = 0;
     disco* temp = topo;
-    while (temp != nullptr) { // Conta o n˙mero de discos
+    while (temp != nullptr) { // Conta o n√∫mero de discos
         totalDiscos++;
         temp = temp->getProximo();
     }
@@ -95,8 +133,8 @@ void desenharTorre(RenderWindow& window, int xPos, int altura, int largura, disc
         discoShape.setTexture(&discoTexture);
         discoShape.setPosition(xPos - discoShape.getSize().x / 2, yOffSet);
         window.draw(discoShape);
-        yOffSet += 50;  // Desloca para baixo o proximo disco (de cima para baixo)
-        discoAtual = discoAtual->getProximo();  // Passa para o proximo disco
+        yOffSet += 50;  // Desloca para baixo o pr√≥ximo disco (de cima para baixo)
+        discoAtual = discoAtual->getProximo();  // Passa para o pr√≥ximo disco
     }
 }
 
@@ -112,6 +150,14 @@ void desenharDiscoDesempilhado(RenderWindow& window, disco* disco) {
 int main() {
 
     RenderWindow window(VideoMode(1280, 800), "Torre de Hanoi", sf::Style::Resize | sf::Style::Close);
+
+    sf::Music musica;
+    if (!musica.openFromFile("musica.ogg")) { // Substitua pelo nome do seu arquivo de m√∫sica
+        cout << "Erro ao carregar a m√∫sica!" << endl;
+        return -1;
+    }
+    musica.setLoop(true);  // Faz a m√∫sica tocar em loop
+    musica.play();  // Come√ßa a tocar a m√∫sica
 
     torre torre1;
     torre torre2;
@@ -129,10 +175,10 @@ int main() {
     torre1.empilhar(&d2);
     torre1.empilhar(&d1);
 
-    //Separando a janela em trÍs seÁıes, cada seÁ„o ter· o mesmo tamanho e uma torre
+    // Separando a janela em tr√™s se√ß√µes, cada se√ß√£o ter√° o mesmo tamanho e uma torre
     float larguraSecao = window.getSize().x / 3.0f;
 
-    //Definindo a posiÁ„o da torre no eixo x
+    // Definindo a posi√ß√£o da torre no eixo x
     float xTorre1 = larguraSecao / 2.0f;
     float xTorre2 = larguraSecao + larguraSecao / 2.0f;
     float xTorre3 = 2 * larguraSecao + larguraSecao / 2.0f;
@@ -143,102 +189,115 @@ int main() {
     int status = 1;
     disco* discoSelect = nullptr;
 
-    torre* torreOrigem = nullptr;;
-    torre* torreDestino = nullptr;;
+    torre* torreOrigem = nullptr;
+    torre* torreDestino = nullptr;
 
+    // Tela inicial
+    bool jogoIniciado = false;
 
     while (window.isOpen()) {
         Event event;
-        window.clear(sf::Color(135, 206, 235));
 
-        desenharTorre(window, xTorre1, alturaTorre, larguraTorre, torre1.getTopo());
-        desenharTorre(window, xTorre2, alturaTorre, larguraTorre, torre2.getTopo());
-        desenharTorre(window, xTorre3, alturaTorre, larguraTorre, torre3.getTopo());
+        if (!jogoIniciado) {
+            // Tela inicial
+            desenharTelaInicial(window);
 
-        if (status == 2) {
-            desenharDiscoDesempilhado(window, discoSelect);
-        }
-
-        
-
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window.close();
-            if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                sf::Vector2i posicaoMouse = sf::Mouse::getPosition(window);
-                
-                int torreClicada = clicarNaTorre(posicaoMouse.x, posicaoMouse.y,
-                    xTorre1, 300, larguraSecao, alturaTorre,
-                    xTorre2, 300, larguraSecao, alturaTorre,
-                    xTorre3, 300, larguraSecao, alturaTorre);
-                if (status == 1) {
-                    if (torreClicada == 1) {
-                        torreOrigem = &torre1;
-                    }
-                    else if (torreClicada == 2) {
-                        torreOrigem = &torre2;
-                    }
-                    else if (torreClicada == 3) {
-                        torreOrigem = &torre3;
-                    }
-                    if (torreOrigem != nullptr && torreOrigem->getTopo() != nullptr) {
-                        discoSelect = torreOrigem->getTopo();
-                        torreOrigem->desempilhar(discoSelect);
-                        status = 2;
-                    }
-                }
-
-                else if (status == 2 && discoSelect != nullptr) {
-                    if (torreClicada == 1) {
-                        torreDestino = &torre1;
-                    }
-                    else if (torreClicada == 2) {
-                        torreDestino = &torre2;
-                    }
-                    else if (torreClicada == 3) {
-                        torreDestino = &torre3;
-                    }
-                    if (torreDestino != nullptr) {
-                        moverDisco(*torreOrigem, *torreDestino, discoSelect);
-                        discoSelect = nullptr;
-                        status = 1;
-                        torreDestino = nullptr;
-                        torreOrigem = nullptr;
-                    }
-                }
-                if (vocÍGanhou(torre2, torre3, 5)) {
-                    // Exibir a mensagem de vitÛria
-                    sf::Font font;
-                    if (!font.loadFromFile("asap.ttf")) {
-                        cout << "Erro ao carregar a fonte!" << endl;
-                        return -1; // Encerra o programa caso a fonte n„o seja carregada
-                    }
-                    
-                    sf::Text victoryText;
-                    victoryText.setFont(font);
-                    victoryText.setString("ParabÈns!");
-                    victoryText.setCharacterSize(50);
-                    victoryText.setFillColor(sf::Color::Magenta);
-
-                    sf::FloatRect textRect = victoryText.getLocalBounds();
-                    victoryText.setOrigin(textRect.width / 2, textRect.height / 2);
-                    victoryText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-
-                    window.clear(sf::Color(135, 206, 235));
-                    window.draw(victoryText);
-                    window.display();
-
-                    sf::sleep(sf::seconds(3));
+            while (window.pollEvent(event)) {
+                if (event.type == Event::Closed)
                     window.close();
+                if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                    if (verificarCliqueStart(window)) {
+                        jogoIniciado = true; // Come√ßar o jogo
+                    }
                 }
+            }
+        } else {
+            // Jogo da Torre de Hanoi
+            window.clear(sf::Color(135, 206, 235));
 
+            desenharTorre(window, xTorre1, alturaTorre, larguraTorre, torre1.getTopo());
+            desenharTorre(window, xTorre2, alturaTorre, larguraTorre, torre2.getTopo());
+            desenharTorre(window, xTorre3, alturaTorre, larguraTorre, torre3.getTopo());
+
+            if (status == 2) {
+                desenharDiscoDesempilhado(window, discoSelect);
             }
 
+            while (window.pollEvent(event)) {
+                if (event.type == Event::Closed)
+                    window.close();
+                if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                    sf::Vector2i posicaoMouse = sf::Mouse::getPosition(window);
+
+                    int torreClicada = clicarNaTorre(posicaoMouse.x, posicaoMouse.y,
+                        xTorre1, 300, larguraSecao, alturaTorre,
+                        xTorre2, 300, larguraSecao, alturaTorre,
+                        xTorre3, 300, larguraSecao, alturaTorre);
+                    if (status == 1) {
+                        if (torreClicada == 1) {
+                            torreOrigem = &torre1;
+                        }
+                        else if (torreClicada == 2) {
+                            torreOrigem = &torre2;
+                        }
+                        else if (torreClicada == 3) {
+                            torreOrigem = &torre3;
+                        }
+                        if (torreOrigem != nullptr && torreOrigem->getTopo() != nullptr) {
+                            discoSelect = torreOrigem->getTopo();
+                            torreOrigem->desempilhar(discoSelect);
+                            status = 2;
+                        }
+                    }
+
+                    else if (status == 2 && discoSelect != nullptr) {
+                        if (torreClicada == 1) {
+                            torreDestino = &torre1;
+                        }
+                        else if (torreClicada == 2) {
+                            torreDestino = &torre2;
+                        }
+                        else if (torreClicada == 3) {
+                            torreDestino = &torre3;
+                        }
+                        if (torreDestino != nullptr) {
+                            moverDisco(*torreOrigem, *torreDestino, discoSelect);
+                            discoSelect = nullptr;
+                            status = 1;
+                            torreDestino = nullptr;
+                            torreOrigem = nullptr;
+                        }
+                    }
+                    if (voceGanhou(torre2, torre3, 5)) {
+                        // Exibir a mensagem de vit√≥ria
+                        sf::Font font;
+                        if (!font.loadFromFile("asap.ttf")) {
+                            cout << "Erro ao carregar a fonte!" << endl;
+                            return -1; // Encerra o programa caso a fonte n√£o seja carregada
+                        }
+
+                        sf::Text victoryText;
+                        victoryText.setFont(font);
+                        victoryText.setString("Parab√©ns!");
+                        victoryText.setCharacterSize(50);
+                        victoryText.setFillColor(sf::Color::Magenta);
+
+                        sf::FloatRect textRect = victoryText.getLocalBounds();
+                        victoryText.setOrigin(textRect.width / 2, textRect.height / 2);
+                        victoryText.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
+                        window.clear(sf::Color(135, 206, 235));
+                        window.draw(victoryText);
+                        window.display();
+
+                        sf::sleep(sf::seconds(3));
+                        window.close();
+                    }
+                }
+            }
+
+            window.display();
         }
-
-        window.display();
-
-
     }
 
     return 0;

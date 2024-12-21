@@ -1,17 +1,17 @@
 #include "disco.h"
 disco::disco(int tam) {
 	tamanho = tam;
-	próximo = nullptr;
+	proximo = nullptr;
 }
 int disco::getTamanho() const {
 	return tamanho;
 }
 disco* disco::getProximo() const {
-	return próximo;
+	return proximo;
 }
 void disco::setTamanho(int tam) {
 	this->tamanho = tam;
 }
 void disco::setProximo(disco* pro) {
-	this->próximo = pro;
+	this->proximo = pro;
 }

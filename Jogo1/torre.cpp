@@ -1,8 +1,8 @@
 #include "torre.h"
 
-int torre::contagemPosição = 0;
+int torre::contagemPosicao = 0;
 
-torre::torre() : posição(contagemPosição)
+torre::torre() : posicao(contagemPosicao)
 {
     topo = NULL;
     numeroDiscos = 0;
@@ -13,9 +13,9 @@ int torre::getNumeroDiscos() const
     return numeroDiscos;
 }
 
-int torre::getPosição() const
+int torre::getPosicao() const
 {
-    return posição;
+    return posicao;
 }
 
 disco* torre::getTopo() const {
