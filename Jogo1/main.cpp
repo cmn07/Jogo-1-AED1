@@ -152,7 +152,7 @@ int main() {
     RenderWindow window(VideoMode(1280, 800), "Torre de Hanoi", sf::Style::Resize | sf::Style::Close);
 
     sf::Music musica;
-    if (!musica.openFromFile("musica.ogg")) { // Substitua pelo nome do seu arquivo de música
+    if (!musica.openFromFile("musica.ogg")) { 
         cout << "Erro ao carregar a música!" << endl;
         return -1;
     }
