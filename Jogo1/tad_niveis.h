@@ -18,29 +18,37 @@ struct Nível{
     int Dificuldade; /* informação armazenada */
     struct Nível* Seguinte; /* mesmo que PtrNode Dir */
     struct Nível* Anterior; /* mesmo que PtrNode Esq */
+    int Estilo; /* Aí teria uma tabela para dizer 1- Bolo de chocolate, 2- Rosquinhas, etc. */
 };
 
 typedef struct Nível* PtrNível;
 
 struct Níveis {
+    PtrNível Início;
     PtrNível Atual;
 };
 
 /* -------------- OPERAÇÕES PRIMITIVAS -------------- */
 
 void CriarNíveis(Níveis& N){
+    N.Início = NULL;
     N.Atual = NULL;
 }
 
-PtrNível EncontraNível(PtrNível& Atual, int Dif){ // Dif é a dificuldade do nível que quero encontrar
-    if (Atual == NULL)
-        return NULL;
-    else if (Atual->Dificuldade == Dif)
-        return Atual;
-    else if (Dif > Atual->Dificuldade)
-        return EncontraNível(Atual->Seguinte, Dif);
-    else
-        return EncontraNível(Atual->Anterior, Dif);
+PtrNível EncontraNível(Níveis& N, int Dif) { /* Dif é a dificuldade que quero encontrar */
+    PtrNível atual = N.Início; 
+    while (atual != NULL) {
+        if (atual->Dificuldade == Dif) {
+            return atual;
+        }
+        /* Avanço na árvore dependendo da dificuldade */
+        if (Dif > atual->Dificuldade) {
+            atual = atual->Seguinte;
+        } else {
+            atual = atual->Anterior;
+        }
+    }
+    return NULL;
 }
 
 /* 
@@ -49,29 +57,32 @@ PtrNível EncontraNível(PtrNível& Atual, int Dif){ // Dif é a dificuldade do 
 */
 
 /* Vou usar pra criar, na main, a árvore bonitinha dos níveis */
-bool Inserir(PtrNível& Atual, int Dif){ /* X sendo a dificuldade */
+bool Inserir(Níveis& N, PtrNível& Atual, int Dif){ /* X sendo a dificuldade */
     if(Atual == NULL){
         PtrNível Aux = new Nível;
         Aux->Dificuldade = Dif;
-        Aux->Seguinte = EncontraNível(Atual, Dif + 1);
-        Aux->Anterior = EncontraNível(Atual, Dif - 1);
+        Aux->Seguinte = EncontraNível(N, Dif + 1);
+        Aux->Anterior = EncontraNível(N, Dif - 1);
         Atual = Aux;
         Aux = NULL;
+        if(N.Início == NULL)
+            N.Início = Atual;
         return true;
     } else if (Atual->Dificuldade < Dif)
-        return Inserir(Atual->Seguinte, Dif);
+        return Inserir(N, Atual->Seguinte, Dif);
     else if (Atual->Dificuldade > Dif)
-        return Inserir(Atual->Anterior, Dif);
+        return Inserir(N, Atual->Anterior, Dif);
     else 
         return false;
 }
 
 /* retorna True caso passe pro proxímo nível */
 bool PróximoNível(PtrNível& Atual, int Tentativas){
-    if(Tentativas <= 1.25 * min(Atual->Dificuldade)){
+    int minTentativas = min(Atual->Dificuldade);
+    if(Tentativas <= 1.25 * minTentativas){
         Atual = Atual->Seguinte;
         return true;
-    } else if (Tentativas <= 1.5 * min(Atual->Dificuldade)){
+    } else if (Tentativas <= 1.5 * minTentativas){
         return false;
     } else {
         Atual = Atual->Anterior;
@@ -79,16 +90,24 @@ bool PróximoNível(PtrNível& Atual, int Tentativas){
     }
 }
 
+void SetEstilo(Níveis& N, int Dif, int _Estilo){
+    PtrNível Atual = EncontraNível(N, Dif);
+    Atual->Estilo = _Estilo;
+}
+
 /* -------------- OPERAÇÕES NÃO-PRIMITIVAS --------------- */
 
-void Imprimir(PtrNível& Atual){
+/*void Imprimir(PtrNível& Atual){
     if(Atual != NULL){
         Imprimir(Atual->Anterior);
         cout << Atual->Dificuldade << " ";
         Imprimir(Atual->Seguinte);
     }
-}
+}*/
 
 void ImprimirAtual(PtrNível& Atual){
-    cout << "O nível atual tem dificuldade " << Atual->Dificuldade << "!";
+    if(Atual != NULL)
+        cout << "O nível atual tem dificuldade " << Atual->Dificuldade << "!";
+    else
+        cout << "O nível atual é nulo";
 }
