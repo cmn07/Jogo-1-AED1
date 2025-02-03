@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#define min(i) (pow(2, i) - 1)
+#define min_custom(i) (pow(2, i) - 1)
 using namespace std;
 
 /*  O objetivo é fazer um sistema de níveis usando árvore 
@@ -78,7 +78,7 @@ bool Inserir(Níveis& N, PtrNível& Atual, int Dif){ /* X sendo a dificuldade */
 
 /* retorna True caso passe pro proxímo nível */
 bool PróximoNível(PtrNível& Atual, int Tentativas){
-    int minTentativas = min(Atual->Dificuldade);
+    int minTentativas = min_custom(Atual->Dificuldade);
     if(Tentativas <= 1.25 * minTentativas){
         Atual = Atual->Seguinte;
         return true;

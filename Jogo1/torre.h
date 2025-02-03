@@ -2,6 +2,8 @@
 #include "disco.h"
 using namespace std;
 
+#ifndef TORRE_H  
+#define TORRE_H 
 
 class torre
 {
@@ -21,4 +23,4 @@ public:
 };
 
 
-
+#endif 

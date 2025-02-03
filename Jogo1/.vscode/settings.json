@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "deque": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "unordered_map": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "locale": "cpp"
+    }
+}

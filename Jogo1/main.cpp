@@ -1,14 +1,14 @@
 #include <iostream>
 #include "torre.h"
 #include "disco.h"
+#include "tad_niveis.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 using namespace std;
 using namespace sf;
 
-// Função que cria e desenha a tela inicial
+// Função que cria e desenha a tela inicial com a escolha do nível de dificuldade
 void desenharTelaInicial(RenderWindow& window) {
-    // Criar o fundo da tela inicial
     window.clear(sf::Color(135, 206, 235));
 
     // Carregar a fonte para o texto
@@ -27,41 +27,21 @@ void desenharTelaInicial(RenderWindow& window) {
     welcomeText.setPosition(window.getSize().x / 2.0f - welcomeText.getLocalBounds().width / 2.0f, 100);
     window.draw(welcomeText);
 
-    // Criar o botão "Start"
-    sf::Text startText;
-    startText.setFont(font);
-    startText.setString("Start");
-    startText.setCharacterSize(50);
-    startText.setFillColor(sf::Color::Green);
-    startText.setPosition(window.getSize().x / 2.0f - startText.getLocalBounds().width / 2.0f, window.getSize().y / 2.0f);
-
-    // Desenhar o texto na tela
-    window.draw(startText);
+    // Criar o texto para as opções de dificuldade
+    sf::Text easyText;
+    easyText.setFont(font);
+    easyText.setString("Iniciar");
+    easyText.setCharacterSize(30);
+    easyText.setFillColor(sf::Color::Green);
+    easyText.setPosition(window.getSize().x / 2.0f - easyText.getLocalBounds().width / 2.0f, window.getSize().y / 2.0f - 50);
+    window.draw(easyText);
 
     window.display();
 }
 
-// Função que verifica se o clique foi no botão "Start"
-bool verificarCliqueStart(RenderWindow& window) {
-    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
-    // Tamanho do botão Start (aproximadamente 100x50)
-    float startBtnWidth = 200;
-    float startBtnHeight = 60;
-    float startBtnX = window.getSize().x / 2.0f - startBtnWidth / 2.0f;
-    float startBtnY = window.getSize().y / 2.0f;
-
-    if (mousePos.x >= startBtnX && mousePos.x <= startBtnX + startBtnWidth &&
-        mousePos.y >= startBtnY && mousePos.y <= startBtnY + startBtnHeight) {
-        return true;
-    }
-
-    return false;
-}
 
 bool moverDisco(torre& origem, torre& destino, disco* discoMovido) {
     if (!destino.empilhar(discoMovido)) {
-        // Caso o disco não possa ser empilhado, retorna falso
         cout << "Erro: o disco é maior que a base." << endl;
         origem.empilhar(discoMovido); // Reempilha na origem
         return false;
@@ -69,16 +49,18 @@ bool moverDisco(torre& origem, torre& destino, disco* discoMovido) {
     return true;
 }
 
-bool voceGanhou(torre& a, torre& b, int dificuldade)
+bool voceGanhou(torre& a, torre& b, int Dificuldade)
 {
-    if (a.getNumeroDiscos() == dificuldade || b.getNumeroDiscos() == dificuldade)
+    if (a.getNumeroDiscos() == Dificuldade || b.getNumeroDiscos() == Dificuldade)
         return true;
     return false;
 }
 
 int clicarNaTorre(int mouseX, int mouseY, int xTorre1, int yTorre1, int largura1, int altura1, int xTorre2, int yTorre2, int largura2, int altura2, int xTorre3, int yTorre3, int largura3, int altura3) {
+    int Tentativas = 0;
     if (mouseX >= (xTorre1 - largura1 / 2) && mouseX <= (xTorre1 + largura1 / 2) &&
         mouseY >= yTorre1 && mouseY <= (yTorre1 + altura1)) {
+        Tentativas++;
         cout << "Cliquei na torre 1" << endl;
         return 1; // Torre 1 clicada
     }
@@ -86,6 +68,7 @@ int clicarNaTorre(int mouseX, int mouseY, int xTorre1, int yTorre1, int largura1
     // Para a Torre 2
     if (mouseX >= (xTorre2 - largura2 / 2) && mouseX <= (xTorre2 + largura2 / 2) &&
         mouseY >= yTorre2 && mouseY <= (yTorre2 + altura2)) {
+        Tentativas++;
         cout << "Cliquei na torre 2" << endl;
         return 2; // Torre 2 clicada
     }
@@ -93,6 +76,7 @@ int clicarNaTorre(int mouseX, int mouseY, int xTorre1, int yTorre1, int largura1
     // Para a Torre 3
     if (mouseX >= (xTorre3 - largura3 / 2) && mouseX <= (xTorre3 + largura3 / 2) &&
         mouseY >= yTorre3 && mouseY <= (yTorre3 + altura3)) {
+        Tentativas++;
         cout << "Cliquei na torre 3" << endl;
         return 3; // Torre 3 clicada
     }
@@ -114,7 +98,6 @@ void desenharTorre(RenderWindow& window, int xPos, int altura, int largura, disc
     baseShape.setPosition(xPos - largura * 7.5, altura + 300); //Definindo posição da base da torre
     window.draw(torreShape);
     window.draw(baseShape);
-
 
     // Calcular o número total de discos na torre
     int totalDiscos = 0;
@@ -147,7 +130,41 @@ void desenharDiscoDesempilhado(RenderWindow& window, disco* disco) {
     window.draw(discoShape);
 }
 
+void limparTorre(torre& t) {
+    // Desempilha todos os discos da torre
+    while (t.getTopo() != nullptr) {
+        disco* topo = t.getTopo();
+        t.desempilhar(topo);
+    }
+}
+
+void reiniciarTorres(torre& torre1, torre& torre2, torre& torre3, PtrNível nivelAtual) {
+    // Limpa todas as torres
+    limparTorre(torre1);
+    limparTorre(torre2);
+    limparTorre(torre3);
+
+    // Empilha os discos na torre 1, de acordo com a dificuldade
+    for (int i = nivelAtual->Dificuldade; i >= 1; --i) {
+        disco* novoDisco = new disco(i); // Criando um novo disco com a dificuldade do nível
+        torre1.empilhar(novoDisco); // Empilhando o disco na torre 1
+    }
+}
+
+
 int main() {
+
+    Níveis N; CriarNíveis(N);
+
+    Inserir(N, N.Início, 6);  
+    Inserir(N, N.Início, 4);
+    Inserir(N, N.Início, 8);
+    Inserir(N, N.Início, 3);
+    Inserir(N, N.Início, 5);
+    Inserir(N, N.Início, 7);
+    Inserir(N, N.Início, 9);
+
+    N.Atual = EncontraNível(N, 6);
 
     RenderWindow window(VideoMode(1280, 800), "Torre de Hanoi", sf::Style::Resize | sf::Style::Close);
 
@@ -168,12 +185,10 @@ int main() {
     disco d3(3);
     disco d4(4);
     disco d5(5);
-
-    torre1.empilhar(&d5);
-    torre1.empilhar(&d4);
-    torre1.empilhar(&d3);
-    torre1.empilhar(&d2);
-    torre1.empilhar(&d1);
+    disco d6(6);
+    disco d7(7);
+    disco d8(8);
+    disco d9(9); 
 
     // Separando a janela em três seções, cada seção terá o mesmo tamanho e uma torre
     float larguraSecao = window.getSize().x / 3.0f;
@@ -194,7 +209,7 @@ int main() {
 
     // Tela inicial
     bool jogoIniciado = false;
-
+    int Tentativas  = 0;
     while (window.isOpen()) {
         Event event;
 
@@ -206,8 +221,16 @@ int main() {
                 if (event.type == Event::Closed)
                     window.close();
                 if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    if (verificarCliqueStart(window)) {
+                    if (N.Atual != nullptr) {
                         jogoIniciado = true; // Começar o jogo
+                          if (N.Atual->Dificuldade == 6) {
+                            torre1.empilhar(&d6);
+                            torre1.empilhar(&d5);
+                            torre1.empilhar(&d4);
+                            torre1.empilhar(&d3);
+                            torre1.empilhar(&d2);
+                            torre1.empilhar(&d1);
+                        }
                     }
                 }
             }
@@ -236,12 +259,15 @@ int main() {
                     if (status == 1) {
                         if (torreClicada == 1) {
                             torreOrigem = &torre1;
+                            Tentativas++;
                         }
                         else if (torreClicada == 2) {
                             torreOrigem = &torre2;
+                            Tentativas++;
                         }
                         else if (torreClicada == 3) {
                             torreOrigem = &torre3;
+                            Tentativas++;
                         }
                         if (torreOrigem != nullptr && torreOrigem->getTopo() != nullptr) {
                             discoSelect = torreOrigem->getTopo();
@@ -253,12 +279,15 @@ int main() {
                     else if (status == 2 && discoSelect != nullptr) {
                         if (torreClicada == 1) {
                             torreDestino = &torre1;
+                            Tentativas++;
                         }
                         else if (torreClicada == 2) {
                             torreDestino = &torre2;
+                            Tentativas++;
                         }
                         else if (torreClicada == 3) {
                             torreDestino = &torre3;
+                            Tentativas++;
                         }
                         if (torreDestino != nullptr) {
                             moverDisco(*torreOrigem, *torreDestino, discoSelect);
@@ -268,7 +297,7 @@ int main() {
                             torreOrigem = nullptr;
                         }
                     }
-                    if (voceGanhou(torre2, torre3, 5)) {
+                    if (voceGanhou(torre2, torre3, N.Atual->Dificuldade)) {
                         // Exibir a mensagem de vitória
                         sf::Font font;
                         if (!font.loadFromFile("asap.ttf")) {
@@ -278,7 +307,7 @@ int main() {
 
                         sf::Text victoryText;
                         victoryText.setFont(font);
-                        victoryText.setString("Parabéns!");
+                        victoryText.setString("Parabens!");
                         victoryText.setCharacterSize(50);
                         victoryText.setFillColor(sf::Color::Magenta);
 
@@ -291,7 +320,17 @@ int main() {
                         window.display();
 
                         sf::sleep(sf::seconds(3));
-                        window.close();
+
+                        PróximoNível(N.Atual, Tentativas);
+
+                        if (N.Atual -> Dificuldade != 9) {
+                            // Reiniciar as torres para o próximo nível
+                            reiniciarTorres(torre1, torre2, torre3, N.Atual);
+                        }   
+
+                        else
+                            window.close();                    
+                       
                     }
                 }
             }
